@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>食刻｜Team</title>
+  <link rel="icon" type="image/png" href="images/便當.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0e0c0a;
+      --text:#f2ede8;
+      --accent:#e0a37a;
+      --accent2:#6f3b25;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.9;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* 導覽列（同 film） */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1.2rem 0;
+      background: rgba(20, 16, 13, 0.85);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav a {
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .nav a:hover,
+    .nav a.active { background-color: var(--accent2); }
+
+    /* hover：像燭光晃一下（同 film） */
+    .nav a:hover{
+      animation: navFlicker 0.9s infinite;
+    }
+    @keyframes navFlicker{
+      0%{ filter: brightness(1); }
+      25%{ filter: brightness(1.08); }
+      55%{ filter: brightness(0.98); }
+      100%{ filter: brightness(1.06); }
+    }
+
+    /* Hero（同 film 的呼吸層） */
+    .team-hero {
+      min-height: 68vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(14,12,10,0.62), rgba(14,12,10,0.92)),
+        url("images/photo3.PNG") center / cover no-repeat;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 600px at 50% 35%, rgba(255,190,120,0.10), transparent 60%);
+      animation: breathe 6.8s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes breathe{
+      0%,100%{ opacity: .8; }
+      50%{ opacity: 1; }
+    }
+
+    .team-hero > div{ position: relative; z-index: 2; }
+
+    .team-hero h1{
+      font-size: 3.2rem;
+      letter-spacing: 0.25em;
+      margin-bottom: 1.2rem;
+    }
+
+    .team-hero p{
+      font-size: 1.1rem;
+      color: #d6c7bb;
+      letter-spacing: .12em;
+    }
+
+    /* 內容 */
+    .team-section{
+      max-width: 980px;
+      margin: auto;
+      padding: 5rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+
+    .section-title{
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    .section-sub{
+      color: #cbbdb3;
+      font-size: 1rem;
+      letter-spacing: .08em;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Credits 清單卡片 */
+    .credits-grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.4rem;
+    }
+
+    .credit-card{
+      grid-column: span 6;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+      position: relative;
+      transform: translateZ(0);
+    }
+
+    /* 卡片內的燭光暈（hover 才出現） */
+    .credit-card::after{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,210,140,0.16), transparent 60%);
+      filter: blur(14px);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+
+    .credit-card:hover::after{
+      opacity: 1;
+      animation: flicker 0.95s infinite;
+    }
+
+    @keyframes flicker{
+      0%{ transform: translate(0,0) scale(1); opacity:.55; }
+      25%{ transform: translate(8px,-5px) scale(1.02); opacity:.40; }
+      55%{ transform: translate(-6px,4px) scale(1.01); opacity:.62; }
+      100%{ transform: translate(3px,7px) scale(1.03); opacity:.45; }
+    }
+
+    .credit-inner{
+      padding: 1.6rem 1.6rem 1.4rem;
+    }
+
+    .credit-name{
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      margin-bottom: .6rem;
+    }
+
+    .credit-role{
+      font-size: 1rem;
+      color: #e6ded7;
+      opacity: .9;
+      line-height: 1.9;
+    }
+
+    /* 片尾連結 */
+    .to-film{
+      text-align:center;
+      padding: 3.2rem 1rem 5rem;
+      opacity: .75;
+      letter-spacing: .16em;
+    }
+    .to-film a{
+      color: var(--accent);
+      padding: .75rem 1.1rem;
+      border-radius: 999px;
+      transition: .25s;
+    }
+    .to-film a:hover{
+      background: rgba(224, 163, 122, 0.10);
+    }
+
+    /* 淡入動畫（同 film） */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 光暈（同 film） */
+    #light{
+      position: fixed;
+      left:0; top:0;
+      width: 720px;
+      height: 720px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 200;
+      background: radial-gradient(circle, rgba(255,206,145,0.22), rgba(255,140,60,0.08) 35%, rgba(0,0,0,0) 72%);
+      mix-blend-mode: screen;
+      opacity: .95;
+      filter: blur(2px);
+    }
+    #light::after{
+      content:"";
+      position:absolute;
+      left:50%; top:50%;
+      width: 18px; height: 18px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.85), rgba(255,190,120,0.35), transparent 70%);
+    }
+
+    /* RWD */
+    @media (max-width: 900px){
+      .credit-card{ grid-column: span 12; }
+    }
+
+    @media (max-width: 768px) {
+      body{ cursor:auto; }
+      #light{ display:none; }
+      .team-hero h1 { font-size: 2.2rem; }
+      .team-hero p { font-size: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      body{ cursor:auto; }
+      #light{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="story-about.html">Story</a>
+    <a href="character.html">Character</a>
+    <a href="film.html">Film</a>
+    <a href="team.html" class="active">Team</a>
+  </nav>
+
+  <section class="team-hero fade-up">
+    <div>
+      <h1>CREDITS</h1>
+      <p>製作團隊</p>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="fade-up">
+      <div class="section-title">Team</div>
+      <div class="section-sub">每一個名字，都是這部片的一道光。</div>
+    </div>
+
+    <div class="credits-grid">
+      <article class="credit-card fade-up">
+        <div class="credit-inner">
+          <div class="credit-name">陳俐葳</div>
+          <div class="credit-role">總規劃、企劃書、草稿、剪輯後製</div>
+        </div>
+      </article>
+
+      <article class="credit-card fade-up">
+        <div class="credit-inner">
+          <div class="credit-name">李薺方</div>
+          <div class="credit-role">補間、色稿細化、網頁</div>
+        </div>
+      </article>
+
+      <article class="credit-card fade-up">
+        <div class="credit-inner">
+          <div class="credit-name">黃怡菁</div>
+          <div class="credit-role">背景、宣傳片、動畫音效</div>
+        </div>
+      </article>
+
+      <article class="credit-card fade-up">
+        <div class="credit-inner">
+          <div class="credit-name">呂弈璇</div>
+          <div class="credit-role">補間、上色</div>
+        </div>
+      </article>
+
+      <article class="credit-card fade-up">
+        <div class="credit-inner">
+          <div class="credit-name">曹慧</div>
+          <div class="credit-role">線稿、主視覺海報</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="to-film fade-up">
+    <a href="film.html">← Back to Film</a>
+  </div>
+
+  <div id="light" aria-hidden="true"></div>
+
+  <script>
+    // 滾動淡入（同 film）
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      }),
+      { threshold: 0.2 }
+    );
+    fadeElements.forEach(el => observer.observe(el));
+
+    // 光暈：滑順跟隨（同 film）
+    const light = document.getElementById("light");
+    let mx = window.innerWidth * 0.5, my = window.innerHeight * 0.5;
+    let lx = mx, ly = my;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    window.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; });
+
+    function tick(){
+      lx = lerp(lx, mx, 0.13);
+      ly = lerp(ly, my, 0.13);
+      light.style.left = lx + "px";
+      light.style.top = ly + "px";
+      requestAnimationFrame(tick);
+    }
+    tick();
+  </script>
+</body>
+</html>

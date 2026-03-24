@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>食刻｜Film</title>
+  <link rel="icon" type="image/png" href="images/便當.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0e0c0a;
+      --text:#f2ede8;
+      --accent:#e0a37a;
+      --accent2:#6f3b25;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.9;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    img { width: 100%; display: block; }
+
+    /* 導覽列 */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1.2rem 0;
+      background: rgba(20, 16, 13, 0.85);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav a {
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      transition: 0.3s;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav a:hover,
+    .nav a.active { background-color: var(--accent2); }
+
+    /* hover：像燭光晃一下 */
+    .nav a:hover{
+      animation: navFlicker 0.9s infinite;
+    }
+    @keyframes navFlicker{
+      0%{ filter: brightness(1); }
+      25%{ filter: brightness(1.08); }
+      55%{ filter: brightness(0.98); }
+      100%{ filter: brightness(1.06); }
+    }
+
+    /* Hero */
+    .film-hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(14,12,10,0.58), rgba(14,12,10,0.92)),
+        url("images/photo7.PNG") center / cover no-repeat;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 微呼吸感 */
+    .film-hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 600px at 50% 35%, rgba(255,190,120,0.10), transparent 60%);
+      animation: breathe 6.8s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes breathe{
+      0%,100%{ opacity: .8; }
+      50%{ opacity: 1; }
+    }
+
+    .film-hero h1 {
+      font-size: 3.2rem;
+      letter-spacing: 0.25em;
+      margin-bottom: 1.5rem;
+    }
+
+    .film-hero p {
+      font-size: 1.2rem;
+      color: #d6c7bb;
+    }
+
+    .film-hero > div{
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 內容區 */
+    .film-section {
+      max-width: 900px;
+      margin: auto;
+      padding: 5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    /* 影片框 */
+    .film-frame {
+      position: relative;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      transform: translateZ(0);
+    }
+
+    .film-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    /* 影片框 hover：微微燭光感 */
+    .film-frame::after{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,210,140,0.18), transparent 60%);
+      filter: blur(14px);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+    .film-frame:hover::after{
+      opacity: 1;
+      animation: flicker 0.95s infinite;
+    }
+    @keyframes flicker{
+      0%{ transform: translate(0,0) scale(1); opacity:.55; }
+      25%{ transform: translate(8px,-5px) scale(1.02); opacity:.40; }
+      55%{ transform: translate(-6px,4px) scale(1.01); opacity:.62; }
+      100%{ transform: translate(3px,7px) scale(1.03); opacity:.45; }
+    }
+
+    /* 資訊文字 */
+    .film-info h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .film-info p { font-size: 1.05rem; color: #e6ded7; }
+
+    .film-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #cbbdb3;
+    }
+
+    .film-meta span {
+      display: block;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    /* 淡入動畫 */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 光暈 */
+    #light{
+      position: fixed;
+      left:0; top:0;
+      width: 720px;
+      height: 720px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 200;
+      background: radial-gradient(circle, rgba(255,206,145,0.22), rgba(255,140,60,0.08) 35%, rgba(0,0,0,0) 72%);
+      mix-blend-mode: screen;
+      opacity: .95;
+      filter: blur(2px);
+    }
+    #light::after{
+      content:"";
+      position:absolute;
+      left:50%; top:50%;
+      width: 18px; height: 18px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.85), rgba(255,190,120,0.35), transparent 70%);
+    }
+
+    /* RWD */
+    @media (max-width: 768px) {
+      body{ cursor:auto; }
+      #light{ display:none; }
+      .film-hero h1 { font-size: 2.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      body{ cursor:auto; }
+      #light{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="story-about.html">Story</a>
+    <a href="character.html">Character</a>
+    <a href="film.html" class="active">Film</a>
+  </nav>
+
+  <section class="film-hero fade-up">
+    <div>
+      <h1><img src="images/BENTO WORD.png" style="width: 100%; max-width: 300px; height: auto;" alt="食刻"></h1>
+      <p>Animated Short Film</p>
+    </div>
+  </section>
+
+  <section class="film-section">
+    <div class="film-frame fade-up">
+      <video
+        src="images/FLIM_nosing.mp4"
+        controls
+        preload="metadata"
+        poster="images/poster.jpg"
+      ></video>
+    </div>
+
+    <div class="film-info fade-up">
+      <h2>Film Overview</h2>
+      <p>
+        《食刻》是一部以料理作為情感媒介的動畫短片。
+        透過一份親子便當的準備與交換，
+        描繪高齡獨居老人與成年子女之間，
+        在沉默中流動的思念與修復。
+      </p>
+
+      <div class="film-meta">
+        <div><span>類型</span>家庭療癒動畫短片</div>
+        <div><span>片長</span>約 3-5 分鐘</div>
+        <div><span>主題</span>孤獨・親情・時間</div>
+        <div><span>製作形式</span>2D Animation</div>
+      </div>
+    </div>
+  </section>
+
+<div style="text-align:center; padding:4rem 1rem; opacity:.7;">
+  <a href="team.html" style="color:#e0a37a; letter-spacing:.15em; text-decoration:none;">
+    Credits → 前往 Team
+  </a>
+</div>
+  <div id="light" aria-hidden="true"></div>
+
+  <script>
+    // 滾動淡入
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('show');
+        });
+      },
+      { threshold: 0.2 }
+    );
+    fadeElements.forEach(el => observer.observe(el));
+
+    // 光暈：滑順跟隨
+    const light = document.getElementById("light");
+    let mx = window.innerWidth * 0.5, my = window.innerHeight * 0.5;
+    let lx = mx, ly = my;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    window.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    function tick(){
+      lx = lerp(lx, mx, 0.13);
+      ly = lerp(ly, my, 0.13);
+      light.style.left = lx + "px";
+      light.style.top = ly + "px";
+      requestAnimationFrame(tick);
+    }
+    tick();
+  </script>
+</body>
+</html>
